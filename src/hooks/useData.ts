@@ -1,0 +1,2 @@
+import { useCallback,useEffect,useState } from "react";
+export function useData<T>(loader:()=>Promise<T>,deps:unknown[]=[]){const[data,setData]=useState<T|null>(null);const[loading,setLoading]=useState(true);const[error,setError]=useState("");const load=useCallback(async()=>{setLoading(true);setError("");try{setData(await loader())}catch(e){setError(e instanceof Error?e.message:"Unable to load data")}finally{setLoading(false)}},deps);useEffect(()=>{void load()},[load]);return{data,loading,error,reload:load}}
